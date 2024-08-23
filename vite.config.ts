@@ -1,16 +1,3 @@
-// import { defineConfig } from 'vite';
-// import { config } from 'dotenv';
-//
-// // Load environment variables from .env file
-// config();
-//
-// export default defineConfig({
-// 	// Your Vite configuration
-// 	define: {
-// 		'process.env': process.env
-// 	}
-// });
-
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { config } from 'dotenv';
@@ -22,5 +9,6 @@ export default defineConfig({
   plugins: [react()],
 		define: {
 		'process.env': process.env
-	}
+	},
+	base: '/chat-app/', // Ensure this is set correctly
 })

@@ -15,10 +15,8 @@ import {
 	ThemeToggle
 } from './chatStyled.ts';
 import { useChatMessages } from '../../hooks/useChatMessages';
-import {options} from "../../util/constant.ts";
+import { options } from "../../util/constant.ts";
 import ThemeSwitcher from "../theme-switcher/ThemeSwitcher.tsx";
-
-
 
 const Chat: React.FC = () => {
 	const { messages, addMessage, addBotResponse } = useChatMessages();
@@ -35,11 +33,11 @@ const Chat: React.FC = () => {
 				const parts = input.split(' ');
 				const imageNumber = parts[1] ? parseInt(parts[1], 10) : 1;
 				const imageUrl = `https://picsum.photos/200?random=${imageNumber}`;
-				addMessage({ id: messages.length, text: imageUrl, sender: 'user' });
+				addMessage({ id: messages.length, text: `You: ${imageUrl}`, sender: 'user' });
 			} else if (input.startsWith('/select')) {
 				setShowComboBox(true);
 			} else {
-				addMessage({ id: messages.length, text: input, sender: 'user' });
+				addMessage({ id: messages.length, text: `You: ${input}`, sender: 'user' });
 				addBotResponse(input);
 			}
 			setInput('');
@@ -47,7 +45,7 @@ const Chat: React.FC = () => {
 	};
 
 	const handleOptionSelect = (option: string) => {
-		addMessage({ id: messages.length, text: option, sender: 'user' });
+		addMessage({ id: messages.length, text: `You: ${option}`, sender: 'user' });
 		addBotResponse(option);
 		setShowComboBox(false);
 	};
@@ -89,9 +87,9 @@ const Chat: React.FC = () => {
 				{messages.map((msg, index) => (
 					<div key={index}>
 						{msg.text.startsWith('https://') ? (
-							<MessageImage src={msg.text} alt="Random" />
+							<MessageImage src={msg.text.replace('You: ', '')} alt="Random" />
 						) : (
-							<Message themeMode={theme}>{msg.text}</Message>
+							<Message themeMode={theme}>{msg.sender === 'user' ? `You: ${msg.text}` : `Bot: ${msg.text}`}</Message>
 						)}
 					</div>
 				))}
